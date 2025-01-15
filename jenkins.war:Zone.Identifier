@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://www.jenkins.io/
+HostUrl=https://ftp.belnet.be/mirror/jenkins/war-stable/2.479.3/jenkins.war
