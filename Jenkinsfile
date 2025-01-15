@@ -1,20 +1,26 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Building the project...'
+                git 'file:///home/juan/dev/poke-api-project'
             }
         }
-        stage('Test') {
+        stage('Install dependencies') {
             steps {
-                echo 'Running tests...'
+                sh 'pip install -r requirements.txt'
             }
         }
-        stage('Deploy') {
+        stage('Run Tests') {
             steps {
-                echo 'Deploying the application...'
+                sh 'pytest --junitxml=report.xml'
             }
         }
     }
+    post {
+        always {
+            junit 'report.xml'
+        }
+    }
 }
+
