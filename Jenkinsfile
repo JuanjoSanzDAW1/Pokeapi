@@ -3,24 +3,28 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'file:///home/juan/dev/poke-api-project'
+
+                git branch: 'main',
+                    url: 'https://github.com/JuanjoSanzDAW1/Pokeapi.git',
+                    credentialsId: 'c15beb58-e0cf-4866-b778-7d6f884aaf05'
             }
         }
-        stage('Install dependencies') {
+        stage('Build Docker Image') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'docker build -t pokeapi-image .'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest --junitxml=report.xml'
+
+                sh 'docker run --rm pokeapi-image pytest --junitxml=report.xml'
             }
         }
     }
     post {
         always {
+
             junit 'report.xml'
         }
     }
 }
-

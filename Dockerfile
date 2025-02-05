@@ -12,20 +12,11 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Crea y activa un entorno virtual para las dependencias
-RUN python -m venv venv
-
-# Activa el entorno virtual y actualiza pip
-RUN . venv/bin/activate && pip install --upgrade pip
-
 # Instala las dependencias del proyecto
-RUN . venv/bin/activate && pip install -r requirements.txt
-
-# Instala el SDK de Sentry si es necesario
-RUN . venv/bin/activate && pip install sentry-sdk
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Expone el puerto donde correrá la aplicación
 EXPOSE 8000
 
-# Comando para ejecutar la aplicación
-CMD ["sh", "-c", ". venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000"]
+# Comando por defecto para ejecutar la aplicación
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
