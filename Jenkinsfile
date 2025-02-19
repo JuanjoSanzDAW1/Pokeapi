@@ -15,13 +15,13 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh 'docker run --rm pokeapi-image pytest --junitxml=report.xml'
+                sh 'docker run --rm -v $PWD:/app -w /app pokeapi-image pytest --junitxml=report.xml'
             }
         }
     }
     post {
         always {
-            junit 'report.xml'
+            junit '**/report.xml' // Buscar el archivo en cualquier subdirectorio
         }
     }
 }
