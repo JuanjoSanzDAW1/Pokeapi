@@ -1,22 +1,22 @@
-# Usa una imagen base oficial de Python
+# Use an official Python base image
 FROM python:3.10-slim
 
-# Establece un directorio de trabajo dentro del contenedor
+# Set a working directory inside the container
 WORKDIR /app
 
-# Copia los archivos del proyecto al contenedor
+# Copy the project files to the container
 COPY . /app
 
-# Instala las herramientas necesarias para construir dependencias
+# Install necessary tools to build dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Instala las dependencias del proyecto
+# Install project dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Expone el puerto donde correrá la aplicación
+# Expose the port where the application will run
 EXPOSE 8000
 
-# Comando por defecto para ejecutar la aplicación
+# Default command to run the application
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

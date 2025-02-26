@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from middleware.logger_middleware import log_requests_middleware
 from view.routes import router
 import sentry_sdk
+from redis_config import set_value, get_value
 
 
 sentry_sdk.init(
@@ -30,4 +31,10 @@ async def trigger_error():
 @app.get("/")
 async def read_root():
     return {"message": "Hello World"}
+
+@app.get("/redis-test")
+async def redis_test():
+    set_value("test_key", "Hello from Redis!")
+    value = get_value("test_key")
+    return {"stored_value": value}
 

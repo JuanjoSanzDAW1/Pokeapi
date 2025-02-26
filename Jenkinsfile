@@ -21,7 +21,7 @@ pipeline {
     }
     post {
         always {
-            junit '**/report.xml' // Buscar el archivo en cualquier subdirectorio
+            junit '**/report.xml'
         }
     }
 }
